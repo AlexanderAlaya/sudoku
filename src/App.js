@@ -17,7 +17,9 @@ class App extends React.Component {
     this.state = {
       fields: models[random],
       isError: null,
-      array
+      array,
+      startDate: new Date(),
+      time: null
     }
   }
 
@@ -69,7 +71,6 @@ class App extends React.Component {
 
   handleChange = (row, col) => {
     return (e) => {
-      console.log(this.state.array)
       let value = e.target.value
       if (value == "") {
         let setup = this.state.fields.setup
@@ -112,7 +113,6 @@ class App extends React.Component {
 
   isWin = () => {
     let { wzor, setup } = this.state.fields
-    console.log(this.state.array)
     for (let i = 0; i < 9; i++) {
       for (let k = 0; k < 9; k++) {
         if (setup[i][k] != wzor[i][k]) {
@@ -124,7 +124,8 @@ class App extends React.Component {
       }
     }
     this.setState({
-      isError: false
+      isError: false,
+      time: ((new Date().getTime() - this.state.startDate.getTime()) / 1000 ).toFixed(2)
     })
   }
 
@@ -142,7 +143,7 @@ class App extends React.Component {
             "" :
             this.state.isError == true ?
               <p className="message" style={{ background: "red" }}>Złe rozwiązanie</p> :
-              <p className="message" style={{ background: "green" }}>Udało się !!!!</p>
+              <p className="message" style={{ background: "green" }}>Udało się !!!! Ukończyłeś/aś w ciągu {this.state.time} sekund.</p>
         }
 
       </React.Fragment>
